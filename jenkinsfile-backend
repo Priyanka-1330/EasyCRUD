@@ -36,5 +36,14 @@ pipeline {
             }
 
         }
+        stage('sonarQube Analisis') {
+            steps{
+                dir('backend'){
+                    withSonarQubeEnv('sonar'){
+                        sh 'mvn sonar:sonar'
+                    }
+                }
+            }
+        }
     }
 }
