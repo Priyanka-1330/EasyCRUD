@@ -5,6 +5,10 @@ pipeline {
     tools {
         maven 'mvn'
     }
+    environment {
+        my_aws_cred =credentials('access-key')
+        
+    }
     stages {
         stage('Checkout'){
             steps {
@@ -23,5 +27,14 @@ pipeline {
                 }
             }
         }
-}
+        stage('Artifact to s3') {
+            steps{
+                sh '''
+                    sudo snap install aws-cli --classic
+                    aws s3 cp backend/target/*.jar s3://easy-curd-priyanka/Artifact/student.war
+                '''
+            }
+
+        }
+    }
 }
